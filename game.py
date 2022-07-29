@@ -16,5 +16,4 @@ if __name__ == '__main__':
     curses.initscr()
     curses.curs_set(False)
     curses.update_lines_cols()
-
     curses.wrapper(draw)
