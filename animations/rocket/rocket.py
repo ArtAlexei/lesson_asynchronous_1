@@ -2,7 +2,6 @@
 import asyncio
 from itertools import cycle
 
-from pyparsing import col
 from config import SPACESHIP_HEIGHT, SPACESHIP_WEIGHT
 
 from curses_tools import draw_frame, read_controls
@@ -35,10 +34,9 @@ def calculate_spaceship_location(canvas, row, column):
 
 async def animate_spaceship(canvas, row, column, spaceships):
     for spaceship in cycle(spaceships):
-        row, column = calculate_spaceship_location(canvas, row, column)
-        drawing_raw, drawing_column = row, column
-        draw_frame(canvas, drawing_raw, drawing_column-2, spaceship)
-        await asyncio.sleep(0)
-        row, column = calculate_spaceship_location(canvas, row, column)
-        await asyncio.sleep(0)
-        draw_frame(canvas, drawing_raw, drawing_column-2, spaceship, negative=True)
+        for _ in range(2):
+            row, column = calculate_spaceship_location(canvas, row, column)
+            drawing_raw, drawing_column = row, column
+            draw_frame(canvas, drawing_raw, drawing_column-2, spaceship)
+            await asyncio.sleep(0)
+            draw_frame(canvas, drawing_raw, drawing_column-2, spaceship, negative=True)

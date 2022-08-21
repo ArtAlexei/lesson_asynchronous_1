@@ -4,7 +4,8 @@ import time
 from animations.blink import blink
 from animations.fire import fire
 from animations.rocket.rocket import animate_spaceship, get_spaceships
-from config import SPACESHIP_1_ROUTE, SPACESHIP_2_ROUTE, TIC_TIMEOUT
+from config import BORDER_THICKNESS, NUMBER_OR_STARS, \
+    SPACESHIP_1_ROUTE, SPACESHIP_2_ROUTE, TIC_TIMEOUT
 
 
 def draw(canvas,  page_rows, page_columns):
@@ -18,9 +19,11 @@ def draw(canvas,  page_rows, page_columns):
         animate_spaceship(canvas, spaceship_row, spaceship_column, spaceships)
     )
 
-    for _ in range(100):
-        row = random.randint(1, page_rows - 2)
-        column = random.randint(1, page_columns - 2)
+    for _ in range(NUMBER_OR_STARS):
+        row = random.randint(
+            BORDER_THICKNESS, page_rows - 2 * BORDER_THICKNESS)
+        column = random.randint(
+            BORDER_THICKNESS, page_columns - 2 * BORDER_THICKNESS)
         offset_tics = random.randint(1, 30)
         symbol = random.choice('+*.:')
         coroutines.append(blink(canvas, row, column, offset_tics, symbol))
