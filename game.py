@@ -3,6 +3,7 @@ import random
 import time
 from animations.blink import blink
 from animations.fire import fire
+from animations.garbage.space_garbage import fly_garbage
 from animations.rocket.rocket import animate_spaceship, get_spaceships
 from config import BORDER_THICKNESS, NUMBER_OR_STARS, \
     SPACESHIP_1_ROUTE, SPACESHIP_2_ROUTE, TIC_TIMEOUT
@@ -18,6 +19,10 @@ def draw(canvas,  page_rows, page_columns):
     coroutines.append(
         animate_spaceship(canvas, spaceship_row, spaceship_column, spaceships)
     )
+
+    with open('animations/garbage/duck.txt', "r") as garbage_file:
+        frame = garbage_file.read()
+    coroutines.append(fly_garbage(canvas, 10, frame))
 
     for _ in range(NUMBER_OR_STARS):
         row = random.randint(
