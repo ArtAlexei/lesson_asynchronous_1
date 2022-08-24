@@ -2,17 +2,17 @@
 import asyncio
 from itertools import cycle
 
-from config import SPACESHIP_HEIGHT, SPACESHIP_WEIGHT
+from config import SPACESHIP_HEIGHT, SPACESHIP_ROUTE, SPACESHIP_WEIGHT
 
 from curses_tools import draw_frame, read_controls
 
 
-def get_spaceships(*spaceships_routes):
+def get_spaceships(*spaceships_names):
     spaceships = []
-    for route in spaceships_routes:
-        with open(route, "r") as file:
-            spaceship = file.read()
-        spaceships.append(spaceship)
+    for spaceship_name in spaceships_names:
+        file_path = SPACESHIP_ROUTE + spaceship_name + '.txt'
+        with open(file_path, "r") as file:
+            spaceships.append(file.read())
     return spaceships
 
 
