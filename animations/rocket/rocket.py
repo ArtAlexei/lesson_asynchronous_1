@@ -1,11 +1,13 @@
 
 import asyncio
 from itertools import cycle
+from animations.fire import fire
 
 from config import BORDER_THICKNESS, SPACESHIP_HEIGHT, SPACESHIP_ROUTE, SPACESHIP_WIDTH
 
 from curses_tools import draw_frame, read_controls
 from physics import update_speed
+from global_variable import coroutines
 
 
 def get_spaceships(*spaceships_names):
@@ -20,6 +22,9 @@ def get_spaceships(*spaceships_names):
 def calculate_spaceship_location(canvas, row, column, row_speed, column_speed):
 
     rows_direction, columns_direction, space_pressed = read_controls(canvas)
+
+    if space_pressed:
+        coroutines.append(fire(canvas, row, column))
 
     max_row, max_column = canvas.getmaxyx()
 

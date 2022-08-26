@@ -17,7 +17,6 @@ def draw(canvas,  page_rows, page_columns):
     spaceship_row = page_rows // 2
     spaceship_column = page_columns // 2
 
-    coroutines.append(fire(canvas, spaceship_row, spaceship_column))
     spaceships = get_spaceships('rocket_frame_1', 'rocket_frame_2')
 
     coroutines.append(
