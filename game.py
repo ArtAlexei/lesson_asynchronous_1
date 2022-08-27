@@ -10,6 +10,7 @@ from config import BORDER_THICKNESS, NUMBER_OR_STARS, TIC_TIMEOUT
 
 from global_variable import coroutines, obstacles
 from obstacles import show_obstacles
+from years import years
 
 
 def draw(canvas,  page_rows, page_columns):
@@ -26,6 +27,7 @@ def draw(canvas,  page_rows, page_columns):
     coroutines.append(fill_orbit_with_garbage(canvas))
 
     #coroutines.append(show_obstacles(canvas, obstacles))
+    coroutines.append(years(canvas, 100))
 
     for _ in range(NUMBER_OR_STARS):
         row = random.randint(
@@ -43,6 +45,8 @@ def draw(canvas,  page_rows, page_columns):
             except StopIteration:
                 coroutines.remove(coroutine)
         canvas.border()
+        canvas.derwin(2, 4, 5, 7)
+
         canvas.refresh()
         time.sleep(TIC_TIMEOUT)
 
