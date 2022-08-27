@@ -2,9 +2,10 @@ import random
 from config import GARBAGE_ROUTE
 from curses_tools import draw_frame, get_frame_size
 import asyncio
+from explosion import explode
 
 
-from global_variable import coroutines, obstacles
+from global_variable import coroutines, obstacles, obstacles_in_last_collisions
 from obstacles import Obstacle
 from sleep import sleep
 
@@ -44,6 +45,13 @@ async def fly_garbage(canvas, column, garbage_frame, speed, garbage_uid):
         draw_frame(canvas, row, column, garbage_frame, negative=True)
         row += speed
 
+        if obstacle in obstacles_in_last_collisions:
+            obstacles_in_last_collisions.remove(obstacle)
+            obstacles.remove(obstacle)
+            await explode(canvas,
+                          row+frame_rows//2,
+                          column+frame_columns//2)
+            return
     obstacles.remove(obstacle)
 
 

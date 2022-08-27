@@ -3,13 +3,7 @@ import curses
 from curses_tools import read_controls
 
 from sleep import sleep
-
-
-async def check_fire(canvas, spaceship_row, spaceship_column):
-    while True:
-        await sleep()
-        rows_direction, columns_direction, space_pressed = read_controls(canvas)
-        # print(space_pressed)
+from global_variable import obstacles, obstacles_in_last_collisions
 
 
 async def fire(canvas, start_row, start_column, rows_speed=-0.3, columns_speed=0):
@@ -40,3 +34,8 @@ async def fire(canvas, start_row, start_column, rows_speed=-0.3, columns_speed=0
         canvas.addstr(round(row), round(column), ' ')
         row += rows_speed
         column += columns_speed
+
+        for obstacle in obstacles:
+            if obstacle.has_collision(row, column):
+                obstacles_in_last_collisions.append(obstacle)
+                return
