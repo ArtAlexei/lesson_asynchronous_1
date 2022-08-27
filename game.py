@@ -25,7 +25,7 @@ def draw(canvas,  page_rows, page_columns):
     )
     coroutines.append(fill_orbit_with_garbage(canvas))
 
-    coroutines.append(show_obstacles(canvas, obstacles))
+    #coroutines.append(show_obstacles(canvas, obstacles))
 
     for _ in range(NUMBER_OR_STARS):
         row = random.randint(
