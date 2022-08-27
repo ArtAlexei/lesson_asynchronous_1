@@ -4,11 +4,11 @@ from itertools import cycle
 from animations.fire import fire
 from animations.game_over.geme_over import get_gemeover, show_gameover
 
-from config import BORDER_THICKNESS, GAMEOVER_ROUTE, SPACESHIP_HEIGHT, SPACESHIP_ROUTE, SPACESHIP_WIDTH
+from config import BORDER_THICKNESS, GAMEOVER_ROUTE, GUN_YEAR, SPACESHIP_HEIGHT, SPACESHIP_ROUTE, SPACESHIP_WIDTH
 
 from curses_tools import draw_frame, read_controls
 from physics import update_speed
-from global_variable import coroutines, obstacles
+import global_variable
 
 
 def get_spaceships(*spaceships_names):
@@ -24,8 +24,8 @@ def calculate_spaceship_location(canvas, row, column, row_speed, column_speed):
 
     rows_direction, columns_direction, space_pressed = read_controls(canvas)
 
-    if space_pressed:
-        coroutines.append(fire(canvas, row, column))
+    if space_pressed and global_variable.year > GUN_YEAR:
+        global_variable.coroutines.append(fire(canvas, row, column))
 
     max_row, max_column = canvas.getmaxyx()
 
@@ -51,13 +51,13 @@ async def animate_spaceship(canvas, row, column, spaceships):
             row, column, row_speed, column_speed = calculate_spaceship_location(
                 canvas, row, column, row_speed, column_speed)
 
-            for obstacle in obstacles:
+            for obstacle in global_variable.obstacles:
                 if obstacle.has_collision(row,
                                           column,
                                           SPACESHIP_WIDTH,
                                           SPACESHIP_HEIGHT,):
                     gameover = get_gemeover(GAMEOVER_ROUTE)
-                    coroutines.append(show_gameover(canvas, gameover))
+                    global_variable.coroutines.append(show_gameover(canvas, gameover))
                     return
 
             draw_frame(canvas, row, column-2, spaceship)

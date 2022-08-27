@@ -7,9 +7,7 @@ from animations.garbage.space_garbage import fill_orbit_with_garbage
 from animations.rocket.rocket import animate_spaceship, get_spaceships
 from config import BORDER_THICKNESS, NUMBER_OR_STARS, TIC_TIMEOUT
 
-
-from global_variable import coroutines, obstacles
-from obstacles import show_obstacles
+from global_variable import coroutines
 from years import years
 
 
@@ -26,7 +24,6 @@ def draw(canvas,  page_rows, page_columns):
     )
     coroutines.append(fill_orbit_with_garbage(canvas))
 
-    #coroutines.append(show_obstacles(canvas, obstacles))
     coroutines.append(years(canvas, 100))
 
     for _ in range(NUMBER_OR_STARS):

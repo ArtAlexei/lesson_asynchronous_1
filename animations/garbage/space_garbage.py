@@ -1,13 +1,13 @@
+from sleep import sleep
+from obstacles import Obstacle
 import random
-from config import GARBAGE_ROUTE
+from config import GARBAGE_ROUTE, START_YEAR
 from curses_tools import draw_frame, get_frame_size
 import asyncio
-from explosion import explode
+from animations.explosion import explode
 
 
-from global_variable import coroutines, obstacles, obstacles_in_last_collisions
-from obstacles import Obstacle
-from sleep import sleep
+import global_variable
 
 
 def get_garbage(*garbage_names):
@@ -35,7 +35,7 @@ async def fly_garbage(canvas, column, garbage_frame, speed, garbage_uid):
                         frame_rows,
                         frame_columns,
                         garbage_uid)
-    obstacles.append(obstacle)
+    global_variable.obstacles.append(obstacle)
 
     while row < rows_number:
         obstacle.row = row
@@ -45,14 +45,14 @@ async def fly_garbage(canvas, column, garbage_frame, speed, garbage_uid):
         draw_frame(canvas, row, column, garbage_frame, negative=True)
         row += speed
 
-        if obstacle in obstacles_in_last_collisions:
-            obstacles_in_last_collisions.remove(obstacle)
-            obstacles.remove(obstacle)
+        if obstacle in global_variable.obstacles_in_last_collisions:
+            global_variable.obstacles_in_last_collisions.remove(obstacle)
+            global_variable.obstacles.remove(obstacle)
             await explode(canvas,
                           row+frame_rows//2,
                           column+frame_columns//2)
             return
-    obstacles.remove(obstacle)
+    global_variable.obstacles.remove(obstacle)
 
 
 async def fill_orbit_with_garbage(canvas):
@@ -60,13 +60,16 @@ async def fill_orbit_with_garbage(canvas):
                           'trash_large', 'trash_small', 'trash_xl')
     _, columns_number = canvas.getmaxyx()
     garbage_uid = 0
+    start_delay = 100
     while True:
-        await sleep(random.randint(30, 60))
+        game_difficulty = global_variable.year - START_YEAR
+        garbage_delay = max(start_delay - game_difficulty, 10)
+        await sleep(garbage_delay)
         column = random.randint(0, columns_number)
-        coroutines.append(fly_garbage(canvas,
-                                      column,
-                                      random.choice(garbage),
-                                      random.uniform(0.05, 0.1),
-                                      garbage_uid
-                                      ))
+        global_variable.coroutines.append(fly_garbage(canvas,
+                                                      column,
+                                                      random.choice(garbage),
+                                                      random.uniform(0.05, 0.1),
+                                                      garbage_uid
+                                                      ))
         garbage_uid += 1
