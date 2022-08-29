@@ -2,9 +2,9 @@
 import asyncio
 from itertools import cycle
 from animations.fire import fire
-from animations.game_over.geme_over import get_gemeover, show_gameover
+from animations.game_over import get_game_over, show_game_over
 
-from config import BORDER_THICKNESS, GAMEOVER_ROUTE, GUN_YEAR, SPACESHIP_HEIGHT, SPACESHIP_ROUTE, SPACESHIP_WIDTH
+from config import BORDER_THICKNESS, GAME_OVER_ROUTE, GUN_YEAR, SPACESHIP_HEIGHT, SPACESHIP_ROUTE, SPACESHIP_WIDTH
 
 from curses_tools import draw_frame, read_controls
 from physics import update_speed
@@ -56,8 +56,9 @@ async def animate_spaceship(canvas, row, column, spaceships):
                                           column,
                                           SPACESHIP_WIDTH,
                                           SPACESHIP_HEIGHT,):
-                    gameover = get_gemeover(GAMEOVER_ROUTE)
-                    global_variable.coroutines.append(show_gameover(canvas, gameover))
+                    game_over = get_game_over(GAME_OVER_ROUTE)
+                    global_variable.coroutines.append(
+                        show_game_over(canvas, game_over))
                     return
 
             draw_frame(canvas, row, column-2, spaceship)

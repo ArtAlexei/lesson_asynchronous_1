@@ -3,8 +3,8 @@ import random
 import time
 from animations.blink import blink
 from animations.fire import fire
-from animations.garbage.space_garbage import fill_orbit_with_garbage
-from animations.rocket.rocket import animate_spaceship, get_spaceships
+from animations.space_garbage import fill_orbit_with_garbage
+from animations.rocket import animate_spaceship, get_spaceships
 from config import BORDER_THICKNESS, NUMBER_OR_STARS, TIC_TIMEOUT
 
 from global_variable import coroutines
