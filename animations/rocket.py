@@ -1,23 +1,14 @@
 
+import global_variable
+from physics import update_speed
+from curses_tools import draw_frame, read_controls
 import asyncio
 from itertools import cycle
 from animations.fire import fire
 from animations.game_over import get_game_over, show_game_over
 
-from config import BORDER_THICKNESS, GAME_OVER_ROUTE, GUN_YEAR, SPACESHIP_HEIGHT, SPACESHIP_ROUTE, SPACESHIP_WIDTH
-
-from curses_tools import draw_frame, read_controls
-from physics import update_speed
-import global_variable
-
-
-def get_spaceships(*spaceships_names):
-    spaceships = []
-    for spaceship_name in spaceships_names:
-        file_path = SPACESHIP_ROUTE + spaceship_name + '.txt'
-        with open(file_path, "r") as file:
-            spaceships.append(file.read())
-    return spaceships
+from config import BORDER_THICKNESS, GAME_OVER_ROUTE, GUN_YEAR, \
+    SPACESHIP_HEIGHT, SPACESHIP_WIDTH
 
 
 def calculate_spaceship_location(canvas, row, column, row_speed, column_speed):
@@ -38,7 +29,8 @@ def calculate_spaceship_location(canvas, row, column, row_speed, column_speed):
         column = future_column
 
     future_row = row + row_speed
-    if (future_row < max_row - SPACESHIP_HEIGHT-BORDER_THICKNESS) and (future_row > BORDER_THICKNESS):
+    if (future_row < max_row - SPACESHIP_HEIGHT-BORDER_THICKNESS) \
+            and (future_row > BORDER_THICKNESS):
         row = future_row
 
     return row, column, row_speed, column_speed
@@ -48,8 +40,14 @@ async def animate_spaceship(canvas, row, column, spaceships):
     row_speed = column_speed = 0
     for spaceship in cycle(spaceships):
         for _ in range(2):
-            row, column, row_speed, column_speed = calculate_spaceship_location(
-                canvas, row, column, row_speed, column_speed)
+            row, column, row_speed, column_speed = \
+                calculate_spaceship_location(
+                    canvas,
+                    row,
+                    column,
+                    row_speed,
+                    column_speed
+                )
 
             for obstacle in global_variable.obstacles:
                 if obstacle.has_collision(row,

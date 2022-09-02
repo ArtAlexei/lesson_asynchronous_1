@@ -2,10 +2,11 @@ import curses
 import random
 import time
 from animations.blink import blink
-from animations.fire import fire
 from animations.space_garbage import fill_orbit_with_garbage
-from animations.rocket import animate_spaceship, get_spaceships
-from config import BORDER_THICKNESS, NUMBER_OR_STARS, TIC_TIMEOUT
+from animations.rocket import animate_spaceship
+from config import BORDER_THICKNESS, GARBAGE_ROUTE, NUMBER_OR_STARS, \
+    SPACESHIP_ROUTE, TIC_TIMEOUT
+from get_sprite import get_sprite
 
 from global_variable import coroutines
 from years import years
@@ -17,12 +18,30 @@ def draw(canvas,  page_rows, page_columns):
     spaceship_row = page_rows // 2
     spaceship_column = page_columns // 2
 
-    spaceships = get_spaceships('rocket_frame_1', 'rocket_frame_2')
+    spaceships = get_sprite(
+        SPACESHIP_ROUTE,
+        'rocket_frame_1',
+        'rocket_frame_2'
+    )
 
     coroutines.append(
-        animate_spaceship(canvas, spaceship_row, spaceship_column, spaceships)
+        animate_spaceship(
+            canvas,
+            spaceship_row,
+            spaceship_column,
+            spaceships
+        )
     )
-    coroutines.append(fill_orbit_with_garbage(canvas))
+    garbage = get_sprite(
+        GARBAGE_ROUTE,
+        'duck',
+        'hubble',
+        'lamp',
+        'trash_large',
+        'trash_small',
+        'trash_xl'
+    )
+    coroutines.append(fill_orbit_with_garbage(canvas, garbage))
 
     coroutines.append(years(canvas, 100))
 
@@ -42,7 +61,6 @@ def draw(canvas,  page_rows, page_columns):
             except StopIteration:
                 coroutines.remove(coroutine)
         canvas.border()
-        canvas.derwin(2, 4, 5, 7)
 
         canvas.refresh()
         time.sleep(TIC_TIMEOUT)
