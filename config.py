@@ -1,7 +1,7 @@
 TIC_TIMEOUT = 0.01
-SPACESHIP_ROUTE = 'sprites/rocket/'
-GARBAGE_ROUTE = 'sprites/garbage/'
-GAME_OVER_ROUTE = 'sprites/game_over/game_over.txt'
+SPACESHIP_ROUTE = "sprites/rocket/"
+GARBAGE_ROUTE = "sprites/garbage/"
+GAME_OVER_ROUTE = "sprites/game_over/game_over.txt"
 BORDER_THICKNESS = 1
 SPACESHIP_HEIGHT = 9
 SPACESHIP_WIDTH = 3

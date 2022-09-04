@@ -1,10 +1,9 @@
-import asyncio
 import curses
 
 from sleep import sleep
 
 
-async def blink(canvas, row, column, offset_tics=0, symbol='*'):
+async def blink(canvas, row, column, offset_tics=0, symbol="*"):
     while True:
         canvas.addstr(row, column, symbol, curses.A_DIM)
         await sleep(20)

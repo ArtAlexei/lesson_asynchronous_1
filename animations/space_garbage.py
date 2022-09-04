@@ -1,17 +1,17 @@
-from sleep import sleep
-from obstacles import Obstacle
+import asyncio
 import random
+
+import global_variable
 from config import START_YEAR
 from curses_tools import draw_frame, get_frame_size
-import asyncio
+from obstacles import Obstacle
+from sleep import sleep
+
 from animations.explosion import explode
 
 
-import global_variable
-
-
 async def fly_garbage(canvas, column, garbage_frame, speed, garbage_uid):
-    """Animate garbage, flying from top to bottom. 
+    """Animate garbage, flying from top to bottom.
     Сolumn position will stay same, as specified on start."""
     rows_number, columns_number = canvas.getmaxyx()
 
@@ -21,13 +21,7 @@ async def fly_garbage(canvas, column, garbage_frame, speed, garbage_uid):
     row = 0
 
     frame_rows, frame_columns = get_frame_size(garbage_frame)
-    obstacle = Obstacle(
-        row,
-        column,
-        frame_rows,
-        frame_columns,
-        garbage_uid
-    )
+    obstacle = Obstacle(row, column, frame_rows, frame_columns, garbage_uid)
     global_variable.obstacles.append(obstacle)
 
     while row < rows_number:
@@ -42,10 +36,7 @@ async def fly_garbage(canvas, column, garbage_frame, speed, garbage_uid):
             global_variable.obstacles_in_last_collisions.remove(obstacle)
             global_variable.obstacles.remove(obstacle)
             await explode(
-                canvas,
-                row+frame_rows//2,
-                column+frame_columns//2
-            )
+                canvas, row + frame_rows // 2, column + frame_columns // 2)
             return
     global_variable.obstacles.remove(obstacle)
 
@@ -66,7 +57,7 @@ async def fill_orbit_with_garbage(canvas, garbage):
                 column,
                 random.choice(garbage),
                 random.uniform(0.05, 0.1),
-                garbage_uid
+                garbage_uid,
             )
         )
         garbage_uid += 1

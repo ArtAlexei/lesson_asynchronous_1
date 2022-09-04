@@ -38,7 +38,7 @@ def read_controls(canvas):
 
 def draw_frame(canvas, start_row, start_column, text, negative=False):
     """Draw multiline text fragment on canvas, erase text instead of drawing
-     if negative=True is specified."""
+    if negative=True is specified."""
 
     rows_number, columns_number = canvas.getmaxyx()
 
@@ -56,18 +56,18 @@ def draw_frame(canvas, start_row, start_column, text, negative=False):
             if column >= columns_number:
                 break
 
-            if symbol == ' ':
+            if symbol == " ":
                 continue
 
             if row == rows_number - 1 and column == columns_number - 1:
                 continue
 
-            symbol = symbol if not negative else ' '
+            symbol = symbol if not negative else " "
             canvas.addch(row, column, symbol)
 
 
 def get_frame_size(text):
-    """Calculate size of multiline text fragment, return 
+    """Calculate size of multiline text fragment, return
     pair — number of rows and colums."""
 
     lines = text.splitlines()
