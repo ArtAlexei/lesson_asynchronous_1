@@ -7,7 +7,7 @@ from animations.rocket import animate_spaceship
 from animations.space_garbage import fill_orbit_with_garbage
 from config import (BORDER_THICKNESS, GARBAGE_ROUTE, NUMBER_OR_STARS,
                     SPACESHIP_ROUTE, TIC_TIMEOUT)
-from get_sprite import get_sprite
+from get_sprite import get_sprites
 from global_variable import coroutines
 from years import years
 
@@ -18,13 +18,13 @@ def draw(canvas, page_rows, page_columns):
     spaceship_row = page_rows // 2
     spaceship_column = page_columns // 2
 
-    spaceships = get_sprite(
+    spaceships = get_sprites(
         SPACESHIP_ROUTE, "rocket_frame_1", "rocket_frame_2")
 
     coroutines.append(
         animate_spaceship(canvas, spaceship_row, spaceship_column, spaceships)
     )
-    garbage = get_sprite(
+    garbage = get_sprites(
         GARBAGE_ROUTE,
         "duck",
         "hubble",
